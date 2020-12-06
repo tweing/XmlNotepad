@@ -663,6 +663,18 @@ namespace XmlNotepad {
 
                 // Draw the current item text based on the current Font and the custom brush settings.
                 g.DrawString(s, font, myBrush, inset.Left, dy + inset.Top, StringFormat.GenericTypographic);
+
+                // TWE: Draw a box around the value (like a table)
+                bool shallDrawBorder = (this.settings["ShowBorder"] is null) || (this.settings["ShowBorder"].Equals("true"));
+                if (shallDrawBorder)
+                {
+                    var lineColor = SystemColors.ControlDark;
+                    var rectPen = new Pen(lineColor, 1);
+                    var lineHeight = font.Height;
+                    var borderRect = new Rectangle(inset.Left, dy + inset.Top, inset.Width - 1, lineHeight);
+                    g.DrawRectangle(rectPen, borderRect);
+                    rectPen.Dispose();
+                }
             }
 
             // If the ListBox has focus, draw a focus rectangle around the selected item.

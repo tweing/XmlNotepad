@@ -1303,6 +1303,18 @@ namespace XmlNotepad {
                 }
                 Layout(g, f, lineHeight, startX, indent, state.Depth, y, imgSize);
                 g.DrawString(text, f, brush, this.labelBounds.Left, this.labelBounds.Top, StringFormat.GenericTypographic);
+
+                // TWE: Draw a box around the treenode like a table
+                var settings = this.TreeView.Site.GetService(typeof(Settings)) as Settings;
+                bool shallDrawBorder = (settings["ShowBorder"] is null) || (settings["ShowBorder"].Equals("true"));
+                if (shallDrawBorder)
+                {
+                    var rectPen = new Pen(this.TreeView.LineColor, 1);
+                    var borderRect = new Rectangle(this.TreeView.Left, y, this.TreeView.Width - 1, lineHeight);
+                    g.DrawRectangle(rectPen, borderRect);
+                    rectPen.Dispose();
+                }
+
                 brush.Dispose();
             }
         }
